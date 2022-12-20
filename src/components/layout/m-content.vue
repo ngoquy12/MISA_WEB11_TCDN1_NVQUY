@@ -3,7 +3,7 @@
     <div class="m-header-title">Nhân viên</div>
     <the-button  @click="showFormEmpoloyee()" buttonTitle="Thêm mới nhân viên"></the-button>
   </div>
-  <employee-detail v-if="isShowFormEmpoloyee" @closeForm="closeForm1" titlePopup="Thêm mới nhân viên"></employee-detail>
+  <employee-detail v-if="isShowFormEmpoloyee" @closeForm="closeDialog()" titlePopup="Thêm mới nhân viên"></employee-detail>
 
 </template>
 <script>
@@ -29,7 +29,7 @@ export default {
     },
     //Đóng form chi tiết nhân viên
     //Author: NVQUY(15/12/2022)
-    closeForm1() {
+    closeDialog() {
       this.isShowFormEmpoloyee = false;
     }
   }

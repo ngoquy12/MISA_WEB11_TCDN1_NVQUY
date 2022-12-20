@@ -3,7 +3,7 @@
        <!-- Toolbar -->
       <div class="m-body-toolbar">
         <div class="m-search-area">
-            <input class="m-input m-input-search m-input-34 " type="text"
+            <input class="m-input m-input-search m-input-34" type="text"
                 placeholder="Tìm theo mã, tên nhân viên">
             <div class="m-input-icon-search">
                 <div class="m-icon-20 m-icon-search "></div>
@@ -81,20 +81,20 @@
                 <td class="m-td">
                   {{ employee.EmployeeCode }}
                 </td>
-                <td class="m-td ">{{ employee.EmployeeName }}</td>
-                <td class="m-td ">{{ employee.GenderName }}</td>
-                <td class="m-td " style="text-align: center">
+                <td class="m-td">{{ employee.EmployeeName }}</td>
+                <td class="m-td">{{ employee.GenderName }}</td>
+                <td class="m-td" style="text-align: center">
                   {{ formatDate(employee.DateOfBirth) }}
                 </td>
-                <td class="m-td ">{{ employee.IdentityNumber }}</td>
-                <td class="m-td ">{{ employee.EmployeePosition }}</td>
-                <td class="m-td ">{{ employee.DepartmentName }}</td>
-                <td class="m-td ">{{ employee.BankAccountNumber }}</td>
-                <td class="m-td ">{{ employee.BankName }}</td>
-                <td class="m-td ">{{ employee.BankBranchName }}</td>
+                <td class="m-td">{{ employee.IdentityNumber }}</td>
+                <td class="m-td">{{ employee.EmployeePosition }}</td>
+                <td class="m-td">{{ employee.DepartmentName }}</td>
+                <td class="m-td">{{ employee.BankAccountNumber }}</td>
+                <td class="m-td">{{ employee.BankName }}</td>
+                <td class="m-td">{{ employee.BankBranchName }}</td>
                 <td class="m-td m-td-widget">
                   <div class="m-dropdown">
-                    <button class="m-dropdown-type-feature m-dropdown-button-text">
+                    <button class="m-dropdown-type-feature m-dropdown-button-text" @click=" dblEditEmployee(employee)">
                       <div class="m-button-text">Sửa</div>
                     </button>
                     <button  class="m-dropdown-type-feature m-dropdown-button-icon">
@@ -142,7 +142,11 @@
       <!--Component loading -->
       <TheLoading v-if="isShowLoading" ></TheLoading>
       <!-- Component employee detail -->
-      <employee-detail v-if="isShowEmployeeDetail" titlePopup="Sửa nhân viên" :employeeId="employeeIdSelected"></employee-detail>
+      <employee-detail v-if="isShowEmployeeDetail" 
+      titlePopup="Sửa nhân viên" 
+      :employeeId="employeeIdSelected" 
+      @closeForm="closeDialog()"
+      ></employee-detail>
   </div>
 </template>
 <script>
@@ -150,6 +154,7 @@ import TheLoading from "../components/base/TheLoading.vue";
 import EmployeeDetail from "../employees/employeeDetail.vue";
 export default {
   name: "TheTable",
+  emits: ["closeForm"],
   components: {
     TheLoading,
     EmployeeDetail,
@@ -160,13 +165,19 @@ export default {
       isShowLoading: false,
       totalRecord: 0,
       isShowEmployeeDetail: false,
-      employeeIdSelected : {}
+      employeeIdSelected: {},
     };
   },
   created() {
     this.loadData();
   },
   methods: {
+    //Đóng form chi tiết nhân viên
+    //Author: NVQUY(15/12/2022)
+    closeDialog() {
+      this.isShowEmployeeDetail = false;
+      this.loadData();
+    },
     //Lấy danh sách tất cả nhân viên
     //Author: NVQUY(15/12/2022)
     loadData() {
@@ -212,17 +223,14 @@ export default {
     //Author: NVQUY(17/12/2022)
     dblEditEmployee(employee) {
       try {
-        console.log(employee);
         //Hiển thị form sửa thông tin nhân viên
         this.isShowEmployeeDetail = true;
-        //Gán giá trị cho form 
-        this.employeeIdSelected = employee.EmployeeId
+        //Gán giá trị cho form
+        this.employeeIdSelected = employee.EmployeeId;
       } catch (error) {
-          console.log(error);
+        console.log(error);
       }
     },
   },
 };
 </script>
-<style lang="">
-</style>

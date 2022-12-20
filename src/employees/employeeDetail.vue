@@ -56,12 +56,8 @@
                         :class="{ 'm-input-error': errors.EmployeeCode }"
                         tabindex="1"
                         v-model="newEmployee.EmployeeCode"
-                        @blur="validateData()"
                         ref="employeeCode"
                       />
-                      <div class="m-input-message-error">
-                        {{ errors.EmployeeCode }}
-                      </div>
                     </div>
                     <div class="m-input-60 m-pb-24">
                       <div class="m-flex">
@@ -73,12 +69,8 @@
                         class="m-input"
                         :class="{ 'm-input-error': errors.EmployeeName }"
                         v-model="newEmployee.EmployeeName"
-                        @blur="validateData()"
                         tabindex="2"
                       />
-                      <div class="m-input-message-error">
-                        {{ errors.EmployeeName }}
-                      </div>
                     </div>
                     <div class="m-input-100 m-pb-24">
                       <div class="m-flex">
@@ -89,7 +81,6 @@
                       <select
                         class="m-combo-main-content-dep m-combo-main-content"
                         v-model="newEmployee.DepartmentId"
-                        @blur="validateData()"
                         :class="{ 'm-input-error': errors.DepartmentId }"
                         style="padding-right: 12px"
                       >
@@ -107,9 +98,6 @@
                           Phòng đào tạo
                         </option>
                       </select>
-                      <div class="m-input-message-error">
-                        {{ errors.DepartmentId }}
-                      </div>
                       <!-- <div class="m-combo-box input">
                         <div class="m-combo-main-content">
                           <div
@@ -381,13 +369,9 @@
                         type="text"
                         class="m-input"
                         :class="{ 'm-input-error': errors.Email }"
-                        @blur="validateData()"
                         v-model="newEmployee.Email"
                         tabindex="15"
                       />
-                      <div class="m-email-message-error">
-                        {{ errors.Email }}
-                      </div>
                     </div>
                     <div class="m-input-100 m-pb-24">
                       <div class="m-flex-wrap">
@@ -441,7 +425,7 @@
     </div>
     <the-dialog
       v-if="isShowDialog"
-      contentDialog="Mã nhân viên không được phép để trống"
+      :contentDialog="erorrDialog"
       @closeDialog="onCloseDialog()"
     ></the-dialog>
   </div>
@@ -515,7 +499,7 @@ export default {
     hiddenFormPopup() {
       this.$emit("closeForm");
     },
-    
+
     //Lưu và giữ lại form thêm mới nhân viên kèm theo mã mới
     saveAndShowDetail() {
       this.$emit("saveAndShowDetail");
@@ -546,7 +530,12 @@ export default {
               .then((res) => {
                 //Ẩn form thêm mới
                 this.hiddenFormPopup();
-                console.log(res.data);
+                console.log(res);
+              })
+              .catch((error) => {
+                //Hiển thị lỗi lấy từ serve
+                this.isShowDialog = true;
+                this.erorrDialog = error.response.data.userMsg;
               });
           }
           //Nếu là sửa nhân viên
@@ -559,7 +548,12 @@ export default {
               .then((res) => {
                 //Ẩn form thêm mới
                 this.hiddenFormPopup();
-                console.log(res.data);
+                console.log(res);
+              })
+              .catch((error) => {
+                //Hiển thị lỗi lấy từ serve
+                this.isShowDialog = true;
+                this.erorrDialog = error.response.data.userMsg;
               });
           }
         }
@@ -602,7 +596,9 @@ export default {
                 console.log(res);
               })
               .catch((error) => {
-                console.log(error);
+                //Hiển thị lỗi lấy từ serve
+                this.isShowDialog = true;
+                this.erorrDialog = error.response.data.userMsg;
               });
           }
           //Nếu là sửa nhân viên
@@ -623,7 +619,9 @@ export default {
           }
         }
       } catch (error) {
-        console.log(error);
+        //Hiển thị lỗi lấy từ serve
+        this.isShowDialog = true;
+        this.erorrDialog = error.response.data.userMsg;
       }
     },
     //Validate dữ liệu
@@ -639,24 +637,32 @@ export default {
         };
         //Nếu mã nhân viên để trống
         if (!this.valueIsEmpty(this.newEmployee.EmployeeCode)) {
-          this.errors.EmployeeCode = "Trường này là bắt buộc";
-          this.erorr.push = "Trường này là bắt buộc";
+          this.errors.EmployeeCode = "Mã nhân viên không được phép để trống.";
+          this.isShowDialog = true;
+          this.erorrDialog = "Mã nhân viên không được phép để trống.";
+          this.erorr.push = "";
         }
         //Nếu tên nhân viên để trống
         if (!this.valueIsEmpty(this.newEmployee.EmployeeName)) {
-          this.errors.EmployeeName = "Trường này là bắt buộc";
-          this.erorr.push = "Trường này là bắt buộc";
+          this.errors.EmployeeName = "Mã nhân viên không được phép để trống.";
+          this.isShowDialog = true;
+          this.erorrDialog = "Tên nhân viên không được phép để trống.";
+          this.erorr.push = "";
         }
         //Nếu thông tin phòng ban để trống
         if (!this.valueIsEmpty(this.newEmployee.DepartmentId)) {
-          this.errors.DepartmentId = "Trường này là bắt buộc";
-          this.erorr.push = "Trường này là bắt buộc";
+          this.errors.DepartmentId = "Mã nhân viên không được phép để trống.";
+          this.isShowDialog = true;
+          this.erorrDialog = "Thông tin phòng ban không được phép để trống.";
+          this.erorr.push = "";
         }
         //Nếu email không đúng định dạng
         if (this.newEmployee.Email) {
           if (!this.validateEmail(this.newEmployee.Email)) {
-            this.errors.Email = "Email không đúng định dạng";
-            this.erorr.push = "Email không đúng định dạng";
+            this.errors.Email = "";
+            this.isShowDialog = true;
+            this.erorrDialog = "Email không đúng định dạng.";
+            this.erorr.push = "";
           }
         }
         //Nếu mảng danh sách lỗi > 0 thì trả về false, ngược lại trả về true
@@ -692,21 +698,6 @@ export default {
     tabOder() {
       this.$refs.employeeCode.focus();
     },
-    getEmployeeSelected(employeeId){
-      try {
-        this.$request
-        .get(`https://amis.manhnv.net/api/v1/Employees/${employeeId}`)
-        .then((res) => {
-          this.newEmployee = res.data;
-          this.newEmployee.DateOfBirth = this.formatDate(res.data.DateOfBirth);
-          this.newEmployee.IdentityDate = this.formatDate(res.data.IdentityDate);
-        }).catch((error) => {
-          console.log(error);
-        })
-      } catch (error) {
-          console.log(error);
-      }
-    },
     //Hàm fomat ngày/tháng/năm
     //Author: NVQUY(15/12/2022)
     formatDate(date) {
@@ -730,7 +721,7 @@ export default {
       }
     },
   },
-  
+
   created() {
     //Lấy thông tin phòng ban từ serve
     this.getAllDepartment();
@@ -739,12 +730,13 @@ export default {
       this.$request
         .get(`https://amis.manhnv.net/api/v1/Employees/${this.employeeId}`)
         .then((res) => {
-          //Thực hiện gán dữ liệu
           console.log(res);
-          this.getEmployeeSelected(this.employeeId)
-        }).catch((err) => {
-          console.log(err);
+          //Thực hiện gán dữ liệu
+          this.newEmployee = res.data;
         })
+        .catch((err) => {
+          console.log(err);
+        });
     } else {
       //Lấy mã nhân viên mới
       this.$request
@@ -754,11 +746,14 @@ export default {
           //focus vào ô nhập liệu đầu tiên
           this.$nextTick(function () {
             this.$refs.employeeCode.focus();
+          }).catch((error) => {
+            console.log(error);
           });
+        })
+        .catch((error) => {
+          console.log(error);
         });
     }
   },
 };
 </script>
-  <style >
-</style>

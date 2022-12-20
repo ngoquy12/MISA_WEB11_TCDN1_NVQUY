@@ -43,7 +43,7 @@
 }
 
 .m-dropdown-menu {
-    display: none;
+    /* display: none; */
     padding-top: 10px;
     position: absolute;
     height: auto;

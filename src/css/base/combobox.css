@@ -79,7 +79,7 @@
 
 .m-combo-menu {
     min-width: 400px;
-     display: none; 
+     /* display: none;  */
     margin-top: 1px;
 
 }

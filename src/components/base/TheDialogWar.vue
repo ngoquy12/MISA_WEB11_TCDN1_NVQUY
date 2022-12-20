@@ -31,7 +31,7 @@
 <script>
 export default {
   name: "TheDialogWarning",
-  emits: ["closeDialog", "warnMessage",'confirmDelete'],
+  emits: ["closeDialog", "warnMessage","confirmDelete"],
   data() {
     return {
       closeDialog: false,

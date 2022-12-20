@@ -41,7 +41,7 @@
               </div>
             </div>
             <div class="m-popup--content">
-              <div action="">
+              <div >
                 <div class="m-content-2-col">
                   <div class="m-col-1 m-flex-wrap">
                     <div class="m-input-40 m-pr-6 m-pb-24">
@@ -78,7 +78,7 @@
                         <div class="m-input-title-require">&nbsp;*</div>
                       </div>
                       <!-- <MSCombobox url="https://amis.manhnv.net/api/v1/Departments" propValue="DepartmentId" propText="DepartmentName"></MSCombobox> -->
-                      <select
+                      <!-- <select
                         class="m-combo-main-content-dep m-combo-main-content"
                         v-model="newEmployee.DepartmentId"
                         :class="{ 'm-input-error': errors.DepartmentId }"
@@ -97,29 +97,33 @@
                         <option value="4e272fc4-7875-78d6-7d32-6a1673ffca7c">
                           Phòng đào tạo
                         </option>
-                      </select>
-                      <!-- <div class="m-combo-box input">
-                        <div class="m-combo-main-content">
+                      </select> -->
+                      <div class="m-combo-box input" 
+                      >
+                        <div class="m-combo-main-content" 
+                        :class="{ 'm-input-error': errors.DepartmentId }"
+                        
+                        >
                           <div
                             class="m-selected-options m-combo-input-department"
                           >
-                            <input type="hidden"  v-model="newEmployee.DepartmentId"/>
+                            <input
+                              type="hidden"
+                              v-model="newEmployee.DepartmentId"
+                            />
                             <input
                               type="text"
-                              class="m-combo-input m-combo-input-department" 
+                              class="m-combo-input m-combo-input-department"
                               v-model="newEmployee.DepartmentName"
-                              
                               tabindex="7"
                             />
                           </div>
                           <div class="m-combo-action">
                             <div
-                              class="m-btn-dropdown m-btn-dropdown-department"
+                              class="m-btn-dropdown"
                               @click="
                                 this.isshowListDepartment =
-                                  !this.isshowListDepartment
-                              "
-                            >
+                                  !this.isshowListDepartment">
                               <div
                                 class="m-icon-16 m-icon-arrow-dropdown"
                               ></div>
@@ -127,11 +131,7 @@
                           </div>
                         </div>
                       </div>
-                      <div class="m-input-message-error">
-                        Trường này là bắt buộc
-                      </div> 
-                       Combo dropdown chọn phòng ban 
-                      <div class="m-combo-menu" v-if="isshowListDepartment">
+                      <div class="m-combo-menu" v-if="isshowListDepartment" >
                         <div class="m-combo-menu-header">
                           <table class="m-menu-table">
                             <thead class="m-menu-header">
@@ -155,30 +155,27 @@
                         <div class="m-combo-menu-content">
                           <table class="m-menu-table">
                             <tbody class="m-menu-items m-departments-list">
-                                Lấy dữ liệu phòng ban gọi từ api  
+                              <!-- Lấy dữ liệu phòng ban gọi từ api   -->
                               <tr
                                 class="m-menu-items-tr"
                                 v-for="(department, index) in departments"
                                 :key="index"
-                                @click="getDepartment()"
-                              >
+                                @click="getDepartment()">
                                 <td
                                   class="m-menu-items-td"
-                                  style="width: 100px; text-align: left"
-                                >
+                                  style="width: 100px; text-align: left">
                                   <span>{{ department.DepartmentCode }}</span>
                                 </td>
                                 <td
                                   class="m-menu-items-td"
-                                  style="width: 250px; text-align: left"
-                                >
+                                  style="width: 250px; text-align: left">
                                   <span>{{ department.DepartmentName }}</span>
                                 </td>
                               </tr>
                             </tbody>
                           </table>
-                        </div> -->
-                      <!-- </div> -->
+                        </div>
+                      </div>
                     </div>
                     <div class="m-input-100 m-pb-24">
                       <div class="m-flex-wrap">
@@ -720,6 +717,9 @@ export default {
         console.log(error);
       }
     },
+    offAllFilter(){
+      alert(1)
+    }
   },
 
   created() {

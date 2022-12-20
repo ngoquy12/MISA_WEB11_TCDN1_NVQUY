@@ -94,14 +94,28 @@
                 <td class="m-td">{{ employee.BankBranchName }}</td>
                 <td class="m-td m-td-widget">
                   <div class="m-dropdown">
-                    <button class="m-dropdown-type-feature m-dropdown-button-text" @click=" dblEditEmployee(employee)">
+                    <button class="m-dropdown-type-feature m-dropdown-button-text" @click="dblEditEmployee(employee)">
                       <div class="m-button-text">Sửa</div>
                     </button>
-                    <button  class="m-dropdown-type-feature m-dropdown-button-icon">
+                    <button  class="m-dropdown-type-feature m-dropdown-button-icon" @click="toggleDropdown()">
                       <div class="m-button-text">
                         <div class="m-icon-16 m-icon-arrow-down-blue"></div>
                       </div>
                     </button>
+                  </div>
+                  <!-- Dropdown menu xóa nhân viên -->
+                  <div class="m-dropdown-menu" v-if="isShowDropdown">
+                    <ul class="m-dropdown-menu-items">
+                        <li class="m-dropdown-item">
+                            <a class="m-dropdown-item-link">Nhân bản</a>
+                        </li>
+                        <li class="m-dropdown-item" @click="confirmDelete(employee)">
+                            <a class="m-dropdown-item-link">Xóa</a>
+                        </li>
+                        <li class="m-dropdown-item">
+                            <a class="m-dropdown-item-link">Ngừng sử dụng</a>
+                        </li>
+                    </ul>
                   </div>
                 </td>
               </tr>
@@ -147,17 +161,25 @@
       :employeeId="employeeIdSelected" 
       @closeForm="closeDialog()"
       ></employee-detail>
+      <!-- Component dialog warning -->
+      <dialog-warn :warnMessage="warnDelete"
+       v-if="isShowDialogWarn"
+       @closeDialog="cancalConfirm()"
+       @confirmDelete="onDeleteEmployee()"
+       ></dialog-warn>
   </div>
 </template>
 <script>
 import TheLoading from "../components/base/TheLoading.vue";
 import EmployeeDetail from "../employees/employeeDetail.vue";
+import DialogWarn from "../components/base/TheDialogWar.vue";
 export default {
   name: "TheTable",
   emits: ["closeForm"],
   components: {
     TheLoading,
     EmployeeDetail,
+    DialogWarn,
   },
   data() {
     return {
@@ -166,6 +188,10 @@ export default {
       totalRecord: 0,
       isShowEmployeeDetail: false,
       employeeIdSelected: {},
+      isShowDropdown: false,
+      warnDelete: "",
+      isShowDialogWarn: false,
+      rowEmployeeId : []
     };
   },
   created() {
@@ -177,6 +203,11 @@ export default {
     closeDialog() {
       this.isShowEmployeeDetail = false;
       this.loadData();
+    },
+    //Hiển thị dropdown xóa nhân viên
+    //Author : NVQUY(18/12/2022)
+    toggleDropdown() {
+      this.isShowDropdown = !this.isShowDropdown;
     },
     //Lấy danh sách tất cả nhân viên
     //Author: NVQUY(15/12/2022)
@@ -227,6 +258,37 @@ export default {
         this.isShowEmployeeDetail = true;
         //Gán giá trị cho form
         this.employeeIdSelected = employee.EmployeeId;
+      } catch (error) {
+        console.log(error);
+      }
+    },
+    //Hàm confirm xóa nhân viên
+    confirmDelete(employee) {
+      this.isShowDialogWarn = true;
+      this.employeeIdSelected = employee.EmployeeId;
+      this.warnDelete = `Bạn chắc chắn muốn xóa nhân viên <${employee.EmployeeCode}> không?`;
+    },
+    //Chọn nút hủy trên dialog confirm xóa nhân viên
+    cancalConfirm() {
+      this.isShowDialogWarn = false;
+    },
+    //Chọn nút có trên dialog confirm xóa nhân viên
+
+    //Hàm xử lý xóa thông tin nhân viên theo ID
+    //Author: NVQUy(19/12/2022)
+    onDeleteEmployee(employee) {
+      try {
+        this.$request
+          .delete(
+            `https://amis.manhnv.net/api/v1/Employees/${employee.EmployeeId}`
+          )
+          .then((res) => {
+            console.log(res);
+            if (res.success.data) {
+              this.isShowDialogWarn = true;
+              this.loadData();
+            }
+          });
       } catch (error) {
         console.log(error);
       }

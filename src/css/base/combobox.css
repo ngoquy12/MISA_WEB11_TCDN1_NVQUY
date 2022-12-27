@@ -79,13 +79,18 @@
 
 .m-combo-menu {
     min-width: 400px;
-     /* display: none;  */
     margin-top: 1px;
 
 }
 
 .m-combo-dropdown-panel {
     min-width: 200px;
+}
+
+.m-combo-dropdown-panel{
+    position: absolute;
+    right: 218px;
+    bottom: 71px;
 }
 
 .m-dropdown-body-container {
@@ -164,4 +169,4 @@
 .m-menu-items-tr:hover {
     color: #35bf22;
     background-color: #ebedf0;
-} 
+}  

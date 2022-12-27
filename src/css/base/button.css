@@ -1,5 +1,4 @@
-
-.m-button{
+.m-button {
     height: 36px;
     min-width: 80px;
     border: 1px solid transparent;
@@ -10,12 +9,17 @@
     cursor: pointer;
 }
 
-.m-button:hover{
+.m-button:hover {
     background-color: #35bf22;
 }
 
-.m-button:active, .m-button:focus{
+.m-button:active,
+.m-button:focus {
     background-color: #2ca01c;
+}
+
+.m-button-store {
+    margin-right: 8px;
 }
 
 .m-button-secondary {
@@ -28,11 +32,12 @@
     background-color: #d2d3d6;
 }
 
-.m-button-secondary:focus, .m-button-secondary:active {
+.m-button-secondary:focus,
+.m-button-secondary:active {
     background-color: #d2d3d6;
 }
 
-.m-btn-text{
+.m-btn-text {
     font-family: Notosans-Semibold;
     font-size: 13px;
     color: inherit;

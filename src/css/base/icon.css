@@ -170,19 +170,27 @@
 /* Icon cảnh báo nguy hiểm */
 .m-icon-danger {
     background-position: -24px -954px;
+    width: 48px;
+    height: 48px;
 }
 
 /* Icon câu hỏi */
 .m-icon-question {
     background-position: -826px -456px;
+    width: 48px;
+    height: 48px;
 }
 
 /* Icon cảnh báo */
 .m-icon-warning {
-    background-position: -597px -456px
+    background-position: -597px -456px;
+    width: 48px;
+    height: 48px;
 }
 
 /* Icon thành công */
 .m-icon-suscess {
     background-position: -984px -456px;
+    width: 48px;
+    height: 48px;
 }

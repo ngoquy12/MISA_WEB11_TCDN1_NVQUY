@@ -15,9 +15,7 @@
                         </div>
                         <div class="m-dialog-line"></div>
                         <div class="m-dialog-footer">
-                            <button class="m-button">
-                                <div class="m-btn-text">Đóng</div>
-                            </button>
+                            <the-button buttonTitle="Đóng" @click="closeDialog"></the-button>
                         </div>
                     </div>
                 </div>
@@ -27,14 +25,26 @@
     </div>
 </template>
 <script>
+import TheButton from "../base/TheButton.vue";
 export default {
   name: "TheDialogSuccess",
-  data() {
-    return {
-        messageSuccess : ''
-    };
+  components: {
+    TheButton,
   },
-  props : ['messageSuccess']
+  data() {
+    return {};
+  },
+  methods: {
+    closeDialog() {
+      this.$emit("closeDialogSuccess");
+    },
+  },
+  props: {
+    messageSuccess: {
+      type: String,
+      default: "",
+    },
+  },
 };
 </script>
 <style lang="">

@@ -15,7 +15,7 @@
                       <div class="m-icon-16 m-icon-checkbox-active"></div>
                     </span>
                   </span>
-                  <span class="m-input-checkbox-label">Là khách hàng</span>
+                  <span class="m-input-checkbox-label">{{text.isCustomer}}</span>
                 </label>
                 <label class="m-popup-checkbox">
                   <input type="checkbox" class="m-input-checkbox" />
@@ -24,162 +24,83 @@
                       <div class="m-icon-16 m-icon-checkbox-active"></div>
                     </span>
                   </span>
-                  <span class="m-input-checkbox-label">Là nhà cung cấp</span>
+                  <span class="m-input-checkbox-label">{{
+                    text.isProvider
+                  }}</span>
                 </label>
               </div>
               <div class="m-popup-close">
                 <div
                   class="m-icon-24 m-icon-help"
                   style="margin-right: 6px"
-                  title="Trợ giúp"
+                  :title="text.helpToolTip"
                 ></div>
                 <div
                   class="m-icon-24 m-icon-close"
-                  title="Đóng"
+                  :title="text.escToolTip"
                   @click="hiddenFormPopup()"
                 ></div>
               </div>
             </div>
             <div class="m-popup--content">
-              <div >
+              <div>
                 <div class="m-content-2-col">
                   <div class="m-col-1 m-flex-wrap">
                     <div class="m-input-40 m-pr-6 m-pb-24">
                       <div class="m-flex">
-                        <title-lable titleLable="Mã" />
-                        <div class="m-input-title-require">&nbsp;*</div>
-                      </div>
-                      <input
-                        type="text"
-                        class="m-input m-input-code"
-                        maxlength="25"
-                        :class="{ 'm-input-error': errors.EmployeeCode }"
-                        tabindex="1"
-                        v-model="newEmployee.EmployeeCode"
-                        ref="employeeCode"
-                      />
-                    </div>
-                    <div class="m-input-60 m-pb-24">
-                      <div class="m-flex">
-                        <title-lable titleLable="Tên" />
+                        <title-lable :titleLable="fieldName.Code" />
                         <div class="m-input-title-require">&nbsp;*</div>
                       </div>
                       <input
                         type="text"
                         class="m-input"
+                        :class="{ 'm-input-error': errors.EmployeeCode }"
+                        tabindex="1"
+                        @blur="validateData()"
+                        v-model="newEmployee.EmployeeCode"
+                        ref="employeeCode"
+                      />
+                      <div class="m-input-message-error">{{errors.EmployeeCode}}</div>
+                    </div>
+                    <div class="m-input-60 m-pb-24">
+                      <div class="m-flex">
+                        <title-lable :titleLable="fieldName.Name" />
+                        <div class="m-input-title-require">&nbsp;*</div>
+                      </div>
+                      <input
+                        type="text"
+                        class="m-input"
+                        @blur="validateData()"
                         :class="{ 'm-input-error': errors.EmployeeName }"
                         v-model="newEmployee.EmployeeName"
                         tabindex="2"
                       />
+                      <div class="m-input-message-error">{{errors.EmployeeName}}</div>
                     </div>
                     <div class="m-input-100 m-pb-24">
                       <div class="m-flex">
-                        <title-lable titleLable="Đơn vị" />
+                        <title-lable :titleLable="fieldName.department" />
                         <div class="m-input-title-require">&nbsp;*</div>
                       </div>
-                      <!-- <MSCombobox url="https://amis.manhnv.net/api/v1/Departments" propValue="DepartmentId" propText="DepartmentName"></MSCombobox> -->
-                      <!-- <select
-                        class="m-combo-main-content-dep m-combo-main-content"
+                      <!-- <MSCombobox url="https://amis.manhnv.net/api/v1/Departments"
+                       propValue="DepartmentId"
+                        propText="DepartmentName"
+                        @getValue="getDepartmentValue"
+                        ></MSCombobox> -->
+                         <select style="width: 100%; height: 36px; border-radius: 4px;padding-left: 10px; border: 1px solid #babec5;"  
                         v-model="newEmployee.DepartmentId"
-                        :class="{ 'm-input-error': errors.DepartmentId }"
-                        style="padding-right: 12px"
-                      >
-                        <option value=""></option>
-                        <option value="142cb08f-7c31-21fa-8e90-67245e8b283e">
-                          Phòng nhân sự
-                        </option>
-                        <option value="17120d02-6ab5-3e43-18cb-66948daf6128">
-                          Phòng tuyển sinh
-                        </option>
-                        <option value="469b3ece-744a-45d5-957d-e8c757976496">
-                          Phòng sản xuất
-                        </option>
-                        <option value="4e272fc4-7875-78d6-7d32-6a1673ffca7c">
-                          Phòng đào tạo
-                        </option>
-                      </select> -->
-                      <div class="m-combo-box input" 
-                      >
-                        <div class="m-combo-main-content" 
-                        :class="{ 'm-input-error': errors.DepartmentId }"
-                        
-                        >
-                          <div
-                            class="m-selected-options m-combo-input-department"
-                          >
-                            <input
-                              type="hidden"
-                              v-model="newEmployee.DepartmentId"
-                            />
-                            <input
-                              type="text"
-                              class="m-combo-input m-combo-input-department"
-                              v-model="newEmployee.DepartmentName"
-                              tabindex="7"
-                            />
-                          </div>
-                          <div class="m-combo-action">
-                            <div
-                              class="m-btn-dropdown"
-                              @click="
-                                this.isshowListDepartment =
-                                  !this.isshowListDepartment">
-                              <div
-                                class="m-icon-16 m-icon-arrow-dropdown"
-                              ></div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="m-combo-menu" v-if="isshowListDepartment" >
-                        <div class="m-combo-menu-header">
-                          <table class="m-menu-table">
-                            <thead class="m-menu-header">
-                              <tr>
-                                <th
-                                  class="m-menu-header-th"
-                                  style="width: 100px; text-align: left"
-                                >
-                                  <span>Mã đơn vị</span>
-                                </th>
-                                <th
-                                  class="m-menu-header-th"
-                                  style="width: 250px; text-align: left"
-                                >
-                                  <span>Tên đơn vị</span>
-                                </th>
-                              </tr>
-                            </thead>
-                          </table>
-                        </div>
-                        <div class="m-combo-menu-content">
-                          <table class="m-menu-table">
-                            <tbody class="m-menu-items m-departments-list">
-                              <!-- Lấy dữ liệu phòng ban gọi từ api   -->
-                              <tr
-                                class="m-menu-items-tr"
-                                v-for="(department, index) in departments"
-                                :key="index"
-                                @click="getDepartment()">
-                                <td
-                                  class="m-menu-items-td"
-                                  style="width: 100px; text-align: left">
-                                  <span>{{ department.DepartmentCode }}</span>
-                                </td>
-                                <td
-                                  class="m-menu-items-td"
-                                  style="width: 250px; text-align: left">
-                                  <span>{{ department.DepartmentName }}</span>
-                                </td>
-                              </tr>
-                            </tbody>
-                          </table>
-                        </div>
-                      </div>
+                        @blur="validateData()"
+                        :class="{ 'm-input-error': errors.DepartmentId }">
+                          <option value="142cb08f-7c31-21fa-8e90-67245e8b283e">Phòng nhân sự</option>
+                          <option value="17120d02-6ab5-3e43-18cb-66948daf6128">Phòng tuyển sinh</option>
+                          <option value="469b3ece-744a-45d5-957d-e8c757976496">Phòng sản xuất</option>
+                          <option value="4e272fc4-7875-78d6-7d32-6a1673ffca7c">Phòng đào tạo</option>
+                        </select>
+                      <div class="m-input-message-error">{{errors.DepartmentId}}</div>
                     </div>
                     <div class="m-input-100 m-pb-24">
                       <div class="m-flex-wrap">
-                        <title-lable titleLable="Chức danh" />
+                        <title-lable :titleLable="fieldName.employeePosition" />
                       </div>
                       <input
                         type="text"
@@ -192,7 +113,7 @@
                   <div class="m-col-2 m-flex-wrap">
                     <div class="m-input-40 m-pr-6 m-pb-24">
                       <div class="m-flex-wrap">
-                        <title-lable titleLable="Ngày sinh" />
+                        <title-lable :titleLable="fieldName.dateOfBirth" />
                       </div>
                       <input
                         type="date"
@@ -203,7 +124,7 @@
                     </div>
                     <div class="m-input-60 m-pb-24">
                       <div class="m-flex-wrap">
-                        <title-lable titleLable="Giới tính" />
+                        <title-lable :titleLable="fieldName.gender" />
                       </div>
                       <div class="m-radio-group">
                         <label class="m-con-radio">
@@ -219,7 +140,7 @@
                             <span class="m-radio-border"></span>
                             <span class="m-radio-circle"></span>
                           </span>
-                          <span class="m-radio-label">Nam</span>
+                          <span class="m-radio-label">{{ text.male }}</span>
                         </label>
                         <label class="m-con-radio">
                           <input
@@ -233,7 +154,7 @@
                             <span class="m-radio-border"></span>
                             <span class="m-radio-circle"></span>
                           </span>
-                          <span class="m-radio-label">Nữ</span>
+                          <span class="m-radio-label">{{ text.female }}</span>
                         </label>
                         <label class="m-con-radio">
                           <input
@@ -247,15 +168,15 @@
                             <span class="m-radio-border"></span>
                             <span class="m-radio-circle"></span>
                           </span>
-                          <span class="m-radio-label">Khác</span>
+                          <span class="m-radio-label">{{ text.other }}</span>
                         </label>
                       </div>
                     </div>
                     <div class="m-input-60 m-pr-6 m-pb-24">
                       <div class="m-flex-wrap">
                         <title-lable
-                          titleLable="Số CMND"
-                          title="Số chứng minh nhân dân"
+                          :titleLable="fieldName.identityNumber"
+                          :title="fieldName.identityNumberToolTip"
                         />
                       </div>
                       <input
@@ -267,7 +188,7 @@
                     </div>
                     <div class="m-input-40 m-pb-24">
                       <div class="m-flex-wrap">
-                        <title-lable titleLable="Ngày cấp" />
+                        <title-lable :titleLable="fieldName.identityDate" />
                       </div>
                       <input
                         type="date"
@@ -278,7 +199,7 @@
                     </div>
                     <div class="m-input-100 m-pb-24">
                       <div class="m-flex-wrap">
-                        <title-lable titleLable="Nơi cấp" />
+                        <title-lable :titleLable="fieldName.identityPlace" />
                       </div>
                       <input
                         type="text"
@@ -292,7 +213,7 @@
                 <div class="m-content-1-col m-pb-24">
                   <div class="m-input-100">
                     <div class="m-flex-wrap">
-                      <title-lable titleLable="Địa chỉ" />
+                      <title-lable :titleLable="fieldName.address" />
                     </div>
                     <input
                       type="text"
@@ -307,8 +228,8 @@
                     <div class="m-input-100 m-pb-24">
                       <div class="m-flex-wrap">
                         <title-lable
-                          titleLable="ĐT di động"
-                          title="Điện thoại di động"
+                          :titleLable="fieldName.telephoneNumber"
+                          :title="fieldName.telephoneNumberToolTip"
                         />
                       </div>
                       <input
@@ -320,7 +241,9 @@
                     </div>
                     <div class="m-input-100 m-pb-24">
                       <div class="m-flex-wrap">
-                        <title-lable titleLable="Tài khoản ngân hàng" />
+                        <title-lable
+                          :titleLable="fieldName.bankAccountNumber"
+                        />
                       </div>
                       <input
                         type="text"
@@ -334,8 +257,8 @@
                     <div class="m-input-100 m-pb-24">
                       <div class="m-flex-wrap">
                         <title-lable
-                          titleLable="ĐT cố định"
-                          title="Điện thoại cố định"
+                          :titleLable="fieldName.phoneNumber"
+                          :title="fieldName.phoneNumberToolTip"
                         />
                       </div>
                       <input
@@ -347,7 +270,7 @@
                     </div>
                     <div class="m-input-100 m-pb-24">
                       <div class="m-flex-wrap">
-                        <title-lable titleLable="Tên ngân hàng" />
+                        <title-lable :titleLable="fieldName.bankName" />
                       </div>
                       <input
                         type="text"
@@ -360,19 +283,21 @@
                   <div class="m-col-3 m-pr-6">
                     <div class="m-input-100 m-pb-24">
                       <div class="m-flex-wrap">
-                        <title-lable titleLable="Email" />
+                        <title-lable :titleLable="fieldName.email" />
                       </div>
                       <input
                         type="text"
                         class="m-input"
+                        @blur="validateData()"
                         :class="{ 'm-input-error': errors.Email }"
                         v-model="newEmployee.Email"
                         tabindex="15"
                       />
+                      <div class="m-input-message-error">{{errors.Email}}</div>
                     </div>
                     <div class="m-input-100 m-pb-24">
                       <div class="m-flex-wrap">
-                        <title-lable titleLable="Chi nhánh" />
+                        <title-lable :titleLable="fieldName.branch" />
                       </div>
                       <input
                         type="text"
@@ -389,29 +314,20 @@
                 <div class="m-divine"></div>
                 <div class="m-popup-btn">
                   <div class="m-popup-btn-left">
-                    <button
-                      class="m-button m-button-secondary"
-                      tabindex="21"
-                      @click="hiddenFormPopup()"
-                      @keydown.prevent="tabOder()"
-                    >
-                      <div class="m-btn-text">Hủy</div>
-                    </button>
+                    <the-button :isSecondary="true" :tabIndex="21"
+                      @click="hiddenFormPopup"
+                      @keydown.prevent="tabOder"
+                      :buttonTitle="text.cancel"
+                    ></the-button>
                   </div>
                   <div class="m-popup-btn-right">
-                    <button
-                      class="m-button m-button-secondary"
-                      tabindex="20"
-                      style="margin-right: 8px"
-                      @click="btnSaveOnclick()"
-                    >
-                      <div class="m-btn-text">Cất</div>
-                    </button>
-                    <the-button
-                      buttonTitle="Cất và thêm"
-                      tabindex="19"
-                      @click="saveAndAdd()"
-                    ></the-button>
+                      <the-button :tabIndex="20"
+                         @click="btnSaveOnclick"
+                        :buttonTitle="text.store"
+                        :isSecondary="true"
+                        v-bind:style="{'marginRight': margin + 'px'}" 
+                         ></the-button>
+                    <the-button :tabIndex="19" @click="saveAndAdd()" :buttonTitle="text.storeAdd"></the-button>
                   </div>
                 </div>
               </div>
@@ -420,6 +336,7 @@
         </div>
       </div>
     </div>
+    <!-- Dialog wraning -->
     <the-dialog
       v-if="isShowDialog"
       :contentDialog="erorrDialog"
@@ -431,6 +348,8 @@
 import TitleLable from "../../src/components/base/TheLable.vue";
 import TheButton from "../../src/components/base/TheButton.vue";
 import TheDialog from "../components/base/TheDialog.vue";
+import resourceVN from "../../src/resources/resourceVN.js";
+
 // import MSCombobox from "../components/base/ms-combobox.vue"
 export default {
   name: "EmployeeDetail",
@@ -445,11 +364,13 @@ export default {
   data() {
     return {
       titleLable: "",
-      isshowListDepartment: false,
-      departments: [],
+      margin : 8,
+      fieldName: resourceVN.FieldName,
+      errorMessage: resourceVN.ErrorMessage,
+      text: resourceVN.Text,
       buttonTitle: "",
       isChecked: true,
-      error: [],
+      flag: true,
       errors: {
         EmployeeCode: "",
         EmployeeName: "",
@@ -462,52 +383,20 @@ export default {
         DepartmentId: "",
         Email: "",
       },
-      isShowDetail: false,
       isShowDialog: false,
       erorrDialog: "",
     };
   },
-  computed: {
-    isAdd: function () {
-      if (this.valueIsEmpty(this.employeeId)) {
-        return false;
-      }
-      return true;
-    },
-  },
-
   methods: {
-    //Hàm lấy danh sách nhân viên
-    //Author: NVQUY(15/12/2022)
-    getAllDepartment() {
-      try {
-        this.$request
-          .get("https://amis.manhnv.net/api/v1/Departments")
-          .then((res) => {
-            //Gắn dữ liệu cho phòng ban
-            this.departments = res.data;
-          });
-      } catch (error) {
-        console.log(error);
-      }
-    },
     //Ẩn form chi tiết nhân viên
     //Author: NVQUY(15/12/2022)
     hiddenFormPopup() {
       this.$emit("closeForm");
     },
-
-    //Lưu và giữ lại form thêm mới nhân viên kèm theo mã mới
-    saveAndShowDetail() {
-      this.$emit("saveAndShowDetail");
-    },
-    //Hiển thị danh sách phòng ban
-    getDepartment() {
-      try {
-        this.isshowListDepartment = false;
-      } catch (error) {
-        console.log(error);
-      }
+    //Âne form chi tiết và load lại dữ liệu
+    //Author: NVQUY(15/12/2022)
+    hiddenAndLoad() {
+      this.$emit("closeFormAndLoad");
     },
     //Thêm mới nhân viên
     btnSaveOnclick() {
@@ -526,7 +415,7 @@ export default {
               )
               .then((res) => {
                 //Ẩn form thêm mới
-                this.hiddenFormPopup();
+                this.$emit("closeFormAndLoad");
                 console.log(res);
               })
               .catch((error) => {
@@ -544,13 +433,18 @@ export default {
               )
               .then((res) => {
                 //Ẩn form thêm mới
-                this.hiddenFormPopup();
+                this.$emit("closeFormAndLoad");
                 console.log(res);
               })
               .catch((error) => {
                 //Hiển thị lỗi lấy từ serve
                 this.isShowDialog = true;
                 this.erorrDialog = error.response.data.userMsg;
+                //Nếu lỗi mặc định từ serve thì gắn lại lỗi khác ch dễ hiểu
+                if (
+                  error.response.data.userMsg == this.errorMessage.errorByServe
+                )
+                  this.erorrDialog = this.errorMessage.employeeExited;
               });
           }
         }
@@ -572,9 +466,7 @@ export default {
                 this.newEmployee
               )
               .then((res) => {
-                //Gọi hàm lưu và hiển thị form
-                this.saveAndShowDetail();
-                //Reset lại data
+                // //Reset lại data
                 this.newEmployee = {};
                 //Gọi mã mới
                 this.$request
@@ -607,11 +499,17 @@ export default {
               )
               .then((res) => {
                 //Ẩn form chi tiết
-                this.hiddenFormPopup();
+                this.hiddenAndLoad();
                 console.log(res);
               })
               .catch((error) => {
-                console.log(error);
+                this.isShowDialog = true;
+                this.erorrDialog = error.response.data.userMsg;
+                if (
+                  error.response.data.userMsg ==
+                  "Có lỗi xảy ra vui lòng liên hệ Giảng viên để được hỗ trợ!"
+                )
+                  this.erorrDialog = "Mã nhân viên đã tồn tại trong hệ thống";
               });
           }
         }
@@ -634,37 +532,25 @@ export default {
         };
         //Nếu mã nhân viên để trống
         if (!this.valueIsEmpty(this.newEmployee.EmployeeCode)) {
-          this.errors.EmployeeCode = "Mã nhân viên không được phép để trống.";
-          this.isShowDialog = true;
-          this.erorrDialog = "Mã nhân viên không được phép để trống.";
-          this.erorr.push = "";
+          this.errors.EmployeeCode = this.errorMessage.fieldIsrequies;
+          this.flag = false;
         }
         //Nếu tên nhân viên để trống
         if (!this.valueIsEmpty(this.newEmployee.EmployeeName)) {
-          this.errors.EmployeeName = "Mã nhân viên không được phép để trống.";
-          this.isShowDialog = true;
-          this.erorrDialog = "Tên nhân viên không được phép để trống.";
-          this.erorr.push = "";
+          this.errors.EmployeeName = this.errorMessage.fieldIsrequies;
+          this.flag = false;
         }
         //Nếu thông tin phòng ban để trống
         if (!this.valueIsEmpty(this.newEmployee.DepartmentId)) {
-          this.errors.DepartmentId = "Mã nhân viên không được phép để trống.";
-          this.isShowDialog = true;
-          this.erorrDialog = "Thông tin phòng ban không được phép để trống.";
-          this.erorr.push = "";
+          this.errors.DepartmentId = this.errorMessage.fieldIsrequies;
+          this.flag = false;
         }
         //Nếu email không đúng định dạng
         if (this.newEmployee.Email) {
           if (!this.validateEmail(this.newEmployee.Email)) {
-            this.errors.Email = "";
-            this.isShowDialog = true;
-            this.erorrDialog = "Email không đúng định dạng.";
-            this.erorr.push = "";
+            this.errors.Email = this.errorMessage.invalidEmail;
+            this.flag = false;
           }
-        }
-        //Nếu mảng danh sách lỗi > 0 thì trả về false, ngược lại trả về true
-        if (this.error.length > 0) {
-          return false;
         }
         return true;
       } catch (error) {
@@ -695,7 +581,7 @@ export default {
     tabOder() {
       this.$refs.employeeCode.focus();
     },
-    //Hàm fomat ngày/tháng/năm
+    //Hàm fomat ngày/tháng/năm khi Created
     //Author: NVQUY(15/12/2022)
     formatDate(date) {
       try {
@@ -711,21 +597,16 @@ export default {
           // Lấy năm
           let year = date.getFullYear();
           //Trả về định dạng thời gian
-          return (date = `${year}/${month}/${day}`);
+          return `${year}-${month}-${day}`;
         }
       } catch (error) {
         console.log(error);
       }
     },
-    offAllFilter(){
-      alert(1)
-    }
   },
 
   created() {
-    //Lấy thông tin phòng ban từ serve
-    this.getAllDepartment();
-    //Lấy dữ liệu từ serve
+    //Lấy dữ liệu từ server
     if (this.valueIsEmpty(this.employeeId)) {
       this.$request
         .get(`https://amis.manhnv.net/api/v1/Employees/${this.employeeId}`)
@@ -733,6 +614,9 @@ export default {
           console.log(res);
           //Thực hiện gán dữ liệu
           this.newEmployee = res.data;
+          this.newEmployee.DateOfBirth = this.formatDate(res.data.DateOfBirth);
+          this.newEmployee.IdentityDate = this.formatDate(res.data.IdentityDate
+          );
         })
         .catch((err) => {
           console.log(err);
@@ -757,3 +641,5 @@ export default {
   },
 };
 </script>
+
+

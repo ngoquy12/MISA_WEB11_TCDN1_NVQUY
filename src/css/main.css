@@ -17,15 +17,6 @@
 @import url(./layout/main-content.css);
 @import url(./layout/popup.css);
 
-:root {
-    --boder-radius: 4px;
-    --color-error : #E60000;
-    --primary-color : #2ca01c;
-    --secondary-color : ;
-    --text-color: #fff;
-    
-}
-
 body {
     margin: 0;
     font-size: 13px;

@@ -8,102 +8,102 @@
         </div>
         <div class="m-sidebar-item">
             <div class="m-tooltip-content">
-                <a href="#" class="m-item-router">
-                    <div class="m-mr-12 m-icon-24 m-icon-dashboard" title="Tổng quan"></div>
-                    <div class="m-item-title">Tổng quan</div>
+                <a href="#" class="m-item-router" :title="SideBarItem.dashboard">
+                    <div class="m-mr-12 m-icon-24 m-icon-dashboard"></div>
+                    <div class="m-item-title">{{SideBarItem.dashboard}}</div>
                 </a>
             </div>
             <div class="m-tooltip-content">
-                <a href="#" class="m-item-router">
-                    <div class="m-mr-12 m-icon-24 m-icon-cash" title="Tiền mặt"></div>
-                    <div class="m-item-title">Tiền mặt</div>
+                <a href="#" class="m-item-router" :title="SideBarItem.cash">
+                    <div class="m-mr-12 m-icon-24 m-icon-cash"></div>
+                    <div class="m-item-title">{{SideBarItem.cash}}</div>
                 </a>
             </div>
             <div class="m-tooltip-content">
-                <a href="#" class="m-item-router">
-                    <div class="m-mr-12 m-icon-24 m-icon-bank" title="Tiền gửi"></div>
-                    <div class="m-item-title">Tiền gửi</div>
+                <a href="#" class="m-item-router" :title="SideBarItem.bank">
+                    <div class="m-mr-12 m-icon-24 m-icon-bank"></div>
+                    <div class="m-item-title">{{SideBarItem.bank}}</div>
                 </a>
             </div>
             <div class="m-tooltip-content">
-                <a href="#" class="m-item-router">
-                    <div class="m-mr-12 m-icon-24 m-icon-buy" title="Mua hàng"></div>
-                    <div class="m-item-title">Mua hàng</div>
+                <a href="#" class="m-item-router" :title="SideBarItem.buy">
+                    <div class="m-mr-12 m-icon-24 m-icon-buy"></div>
+                    <div class="m-item-title">{{SideBarItem.buy}}</div>
                 </a>
             </div>
             <div class="m-tooltip-content">
-                <a href="#" class="m-item-router">
-                    <div class="m-mr-12 m-icon-24 m-icon-sale" title="Bán hàng"></div>
-                    <div class="m-item-title">Bán hàng</div>
+                <a href="#" class="m-item-router" :title="SideBarItem.sale">
+                    <div class="m-mr-12 m-icon-24 m-icon-sale"></div>
+                    <div class="m-item-title">{{SideBarItem.sale}}</div>
                 </a>
             </div>
             <div class="m-tooltip-content">
-                <a href="#" class="m-item-router">
-                    <div class="m-mr-12 m-icon-24 m-icon-invoice" title="Quản lý hoá đơn"></div>
-                    <div class="m-item-title">Quản lý hoá đơn</div>
+                <a href="#" class="m-item-router" :title="SideBarItem.invoice">
+                    <div class="m-mr-12 m-icon-24 m-icon-invoice"></div>
+                    <div class="m-item-title">{{SideBarItem.invoice}}</div>
                 </a>
             </div>
             <div class="m-tooltip-content">
-                <a href="#" class="m-item-router">
-                    <div class="m-mr-12 m-icon-24 m-icon-stock" title="Kho"></div>
-                    <div class="m-item-title">Kho</div>
+                <a href="#" class="m-item-router" :title="SideBarItem.stock">
+                    <div class="m-mr-12 m-icon-24 m-icon-stock"></div>
+                    <div class="m-item-title">{{SideBarItem.stock}}</div>
                 </a>
             </div>
             <div class="m-tooltip-content">
-                <a href="#" class="m-item-router">
-                    <div class="m-mr-12 m-icon-24 m-icon-tools" title="Công cụ dụng cụ"></div>
-                    <div class="m-item-title">Công cụ dụng cụ</div>
+                <a href="#" class="m-item-router" :title="SideBarItem.tools">
+                    <div class="m-mr-12 m-icon-24 m-icon-tools"></div>
+                    <div class="m-item-title">{{SideBarItem.tools}}</div>
                 </a>
             </div>
             <div class="m-tooltip-content">
-                <a href="#" class="m-item-router">
-                    <div class="m-mr-12 m-icon-24 m-icon-fixed-assets" title="Tài sản cố định"></div>
-                    <div class="m-item-title">Tài sản cố định</div>
+                <a href="#" class="m-item-router" :title="SideBarItem.fixedAssets">
+                    <div class="m-mr-12 m-icon-24 m-icon-fixed-assets"></div>
+                    <div class="m-item-title">{{SideBarItem.fixedAssets}}</div>
                 </a>
             </div>
             <div class="m-tooltip-content">
-                <a href="#" class="m-item-router">
-                    <div class="m-mr-12 m-icon-24 m-icon-tax" title="Thuế"></div>
-                    <div class="m-item-title">Thuế</div>
+                <a href="#" class="m-item-router" :title="SideBarItem.tax">
+                    <div class="m-mr-12 m-icon-24 m-icon-tax"></div>
+                    <div class="m-item-title">{{SideBarItem.tax}}</div>
                 </a>
             </div>
             <div class="m-tooltip-content">
-                <a href="#" class="m-item-router">
-                    <div class="m-mr-12 m-icon-24 m-icon-price" title="Giá thành"></div>
-                    <div class="m-item-title">Giá thành</div>
+                <a href="#" class="m-item-router" :title="SideBarItem.price">
+                    <div class="m-mr-12 m-icon-24 m-icon-price"></div>
+                    <div class="m-item-title">{{SideBarItem.price}}</div>
                 </a>
             </div>
             <div class="m-tooltip-content">
-                <a href="#" class="m-item-router">
-                    <div class="m-mr-12 m-icon-24 m-icon-general" title="Tổng hợp"></div>
-                    <div class="m-item-title">Tổng hợp</div>
+                <a href="#" class="m-item-router" :title="SideBarItem.general">
+                    <div class="m-mr-12 m-icon-24 m-icon-general"></div>
+                    <div class="m-item-title">{{SideBarItem.general}}</div>
                 </a>
             </div>
             <div class="m-tooltip-content">
-                <a href="#" class="m-item-router">
-                    <div class="m-mr-12 m-icon-24 m-icon-budget" title="Ngân sách"></div>
-                    <div class="m-item-title">Ngân sách</div>
+                <a href="#" class="m-item-router" :title="SideBarItem.budget"> 
+                    <div class="m-mr-12 m-icon-24 m-icon-budget"></div>
+                    <div class="m-item-title">{{SideBarItem.budget}}</div>
                 </a>
             </div>
             <div class="m-tooltip-content">
-                <a href="#" class="m-item-router">
-                    <div class="m-mr-12 m-icon-24 m-icon-report" title="Báo cáo"></div>
-                    <div class="m-item-title">Báo cáo</div>
+                <a href="#" class="m-item-router" :title="SideBarItem.report">
+                    <div class="m-mr-12 m-icon-24 m-icon-report"></div>
+                    <div class="m-item-title">{{SideBarItem.report}}</div>
                 </a>
             </div>
-            <!-- <div class="m-tooltip-content">
-                <a href="#" class="m-item-router">
-                    <div class="m-m-mr-12 m-icon-24 m-icon-finance" title="Phân tích tài chính"></div>
-                    <div class="m-item-title">Phân tích tài chính</div>
-                </a>
-            </div> -->
         </div>
     </div>
   </div>
 </template>
 <script>
+import resourceVN from "../../resources/resourceVN.js"
 export default {
-    name: 'TheSidebar'
+    name: 'TheSidebar',
+    data(){
+        return {
+            SideBarItem : resourceVN.SideBarItem
+        }
+    }
 };
 </script>
 <style lang="">

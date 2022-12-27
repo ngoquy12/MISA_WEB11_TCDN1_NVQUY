@@ -16,6 +16,10 @@
     column-gap: 16px;
 }
 
+.m-logo-icon:hover{
+    cursor: pointer;
+}
+
 .m-logo-icon {
     height: 32px;
 }

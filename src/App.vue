@@ -25,7 +25,6 @@ import TheNavbar from "./components/layout/TheNavbar.vue";
 import TheContent from "./components/layout/m-content.vue";
 import EmployeeList from "./employees/employeeList.vue";
 
-
 export default {
   name: "App",
   components: {

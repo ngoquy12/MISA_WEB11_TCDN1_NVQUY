@@ -14,12 +14,8 @@
                             </div>
                             <div class="m-dialog-line"></div>
                             <div class="m-dialog-footer">
-                                <button class="m-button m-button-secondary" @click="oncloseDialog()">
-                                    <div class="m-btn-text">Không</div>
-                                </button>
-                                <button class="m-button" @click="confirmDeleteEmp()">
-                                    <div class="m-btn-text">Có</div>
-                                </button>
+                                <the-button buttonTitle="Không" :isSecondary="true" @click="oncloseDialog()"></the-button>
+                                <the-button buttonTitle="Có" @click="confirmDeleteEmp()"></the-button>
                             </div>
                         </div>
                     </div>
@@ -29,8 +25,12 @@
     </div>
 </template>
 <script>
+import TheButton from "../base/TheButton.vue"
 export default {
   name: "TheDialogWarning",
+  components : {
+    TheButton
+  },
   emits: ["closeDialog", "warnMessage","confirmDelete"],
   data() {
     return {
@@ -49,7 +49,12 @@ export default {
         this.$emit('confirmDelete')
     }
   },
-  props: ["warnMessage"],
+  props: {
+    warnMessage : {
+        type: String,
+        defaul : ""
+    }
+  },
 };
 </script>
 <style lang="">

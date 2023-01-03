@@ -1,9 +1,8 @@
 const ErrorMessage = {
-    emptyEmployeeCode: "Mã nhân viên không được để trống",
-    invalidEmployeeCode: "Mã nhân viên không đúng định dạng",
-    emptyEmployeeName: "Họ và tên không được để trống",
+    emptyEmployeeCode: "Mã không được để trống",
+    invalidEmployeeCode: "Mã không đúng định dạng",
+    emptyEmployeeName: "Tên không được để trống",
     emptyDepartmentName: "Đơn vị không được để trống",
-    fieldIsrequies : "Trường này là bắt buộc",
     invalidEmail: "Email không đúng định dạng",
     employeeExited : "Mã nhân viên đã tồn tại trong hệ thống",
     errorByServe : "Có lỗi xảy ra vui lòng liên hệ Giảng viên để được hỗ trợ!"
@@ -70,7 +69,7 @@ const FieldName ={
     phoneNumber:"ĐT cố định",
     phoneNumberToolTip:"Điện thoại cố định",
     email:"Email",
-    bankAccountNumber:"Số tài khoản",
+    bankAccountNumber:"Tài khoản ngân hàng",
     bankName:"Tên ngân hàng",
     bankBranchName:"Chi nhánh TK ngân hàng",
     branch:"Chi nhánh",

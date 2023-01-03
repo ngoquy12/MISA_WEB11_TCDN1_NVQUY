@@ -82,21 +82,14 @@
                         <title-lable :titleLable="fieldName.department" />
                         <div class="m-input-title-require">&nbsp;*</div>
                       </div>
-                      <!-- <MSCombobox url="https://amis.manhnv.net/api/v1/Departments"
+                      <TheCombobox url="https://amis.manhnv.net/api/v1/Departments"
                        propValue="DepartmentId"
                         propText="DepartmentName"
                         @getValue="getDepartmentValue"
-                        ></MSCombobox> -->
-                         <select style="width: 100%; height: 36px; border-radius: 4px;padding-left: 10px; border: 1px solid #babec5;"  
-                        v-model="newEmployee.DepartmentId"
-                        @blur="validateData()"
-                        :class="{ 'm-input-error': errors.DepartmentId }">
-                          <option value="142cb08f-7c31-21fa-8e90-67245e8b283e">Phòng nhân sự</option>
-                          <option value="17120d02-6ab5-3e43-18cb-66948daf6128">Phòng tuyển sinh</option>
-                          <option value="469b3ece-744a-45d5-957d-e8c757976496">Phòng sản xuất</option>
-                          <option value="4e272fc4-7875-78d6-7d32-6a1673ffca7c">Phòng đào tạo</option>
-                        </select>
-                      <div class="m-input-message-error">{{errors.DepartmentId}}</div>
+                        :isError="isDepartmentError"
+                        :required="true"
+                        ></TheCombobox>
+                      <div class="m-input-message-error" v-if="isDepartmentError">{{errors.DepartmentId}}</div>
                     </div>
                     <div class="m-input-100 m-pb-24">
                       <div class="m-flex-wrap">
@@ -325,7 +318,7 @@
                          @click="btnSaveOnclick"
                         :buttonTitle="text.store"
                         :isSecondary="true"
-                        v-bind:style="{'marginRight': margin + 'px'}" 
+                        v-bind:style="{'marginRight': 8 + 'px'}" 
                          ></the-button>
                     <the-button :tabIndex="19" @click="saveAndAdd()" :buttonTitle="text.storeAdd"></the-button>
                   </div>
@@ -342,6 +335,7 @@
       :contentDialog="erorrDialog"
       @closeDialog="onCloseDialog()"
     ></the-dialog>
+    
   </div>
 </template>
   <script>
@@ -349,29 +343,28 @@ import TitleLable from "../../src/components/base/TheLable.vue";
 import TheButton from "../../src/components/base/TheButton.vue";
 import TheDialog from "../components/base/TheDialog.vue";
 import resourceVN from "../../src/resources/resourceVN.js";
+import TheCombobox from "../components/base/TheCombobox.vue"
 
-// import MSCombobox from "../components/base/ms-combobox.vue"
 export default {
   name: "EmployeeDetail",
   components: {
     TitleLable,
     TheButton,
     TheDialog,
-    // MSCombobox
+    TheCombobox,
   },
   props: ["titlePopup", "employeeId"],
   emits: ["closeForm"],
   data() {
     return {
-      titleLable: "",
-      margin : 8,
-      fieldName: resourceVN.FieldName,
-      errorMessage: resourceVN.ErrorMessage,
-      text: resourceVN.Text,
-      buttonTitle: "",
-      isChecked: true,
-      flag: true,
-      errors: {
+      titleLable: "",  // Tiêu đề của form 
+      fieldName: resourceVN.FieldName, //Tên các trường có trong form
+      errorMessage: resourceVN.ErrorMessage, // Tên resource cảnh báo 
+      text: resourceVN.Text, //Tên resource các đoạn text
+      buttonTitle: "", // Tên button
+      isDepartmentError : false,
+      flag: true, // Gắn cờ
+      errors: { //Danh sách các lỗi
         EmployeeCode: "",
         EmployeeName: "",
         DepartmentId: "",
@@ -383,8 +376,8 @@ export default {
         DepartmentId: "",
         Email: "",
       },
-      isShowDialog: false,
-      erorrDialog: "",
+      isShowDialog: false, // Lựa chọn có show dialog không
+      erorrDialog: "", // Lỗi có trên dialog
     };
   },
   methods: {
@@ -393,11 +386,12 @@ export default {
     hiddenFormPopup() {
       this.$emit("closeForm");
     },
-    //Âne form chi tiết và load lại dữ liệu
+    //Ẩn form chi tiết và load lại dữ liệu
     //Author: NVQUY(15/12/2022)
     hiddenAndLoad() {
       this.$emit("closeFormAndLoad");
     },
+  //#region Các hàm liên quan đến cất và thêm dữ liệu
     //Thêm mới nhân viên
     btnSaveOnclick() {
       try {
@@ -415,7 +409,8 @@ export default {
               )
               .then((res) => {
                 //Ẩn form thêm mới
-                this.$emit("closeFormAndLoad");
+                // this.$emit("closeFormAndLoad");
+                this.hiddenFormPopup();
                 console.log(res);
               })
               .catch((error) => {
@@ -431,10 +426,9 @@ export default {
                 `https://amis.manhnv.net/api/v1/Employees/${this.employeeId}`,
                 this.newEmployee
               )
-              .then((res) => {
-                //Ẩn form thêm mới
+              .then(() => {
+                //Ẩn form thêm mới và load lại dữ liệu
                 this.$emit("closeFormAndLoad");
-                console.log(res);
               })
               .catch((error) => {
                 //Hiển thị lỗi lấy từ serve
@@ -505,11 +499,11 @@ export default {
               .catch((error) => {
                 this.isShowDialog = true;
                 this.erorrDialog = error.response.data.userMsg;
+                //Nếu lỗi mặc định từ serve thì gắn lại lỗi khác ch dễ hiểu
                 if (
-                  error.response.data.userMsg ==
-                  "Có lỗi xảy ra vui lòng liên hệ Giảng viên để được hỗ trợ!"
+                  error.response.data.userMsg == this.errorMessage.errorByServe
                 )
-                  this.erorrDialog = "Mã nhân viên đã tồn tại trong hệ thống";
+                  this.erorrDialog = this.errorMessage.employeeExited;
               });
           }
         }
@@ -519,7 +513,15 @@ export default {
         this.erorrDialog = error.response.data.userMsg;
       }
     },
-    //Validate dữ liệu
+    //Lấy ra giá trị từ combobox phòng ban
+    getDepartmentValue(value){
+        this.newEmployee.DepartmentId = value;
+        this.isDepartmentError = false;
+    },
+
+  //#endregion
+  //#region Các hàm liên quan đến Validate dữ liệu
+      //Validate dữ liệu
     //Author: NVQUY(18/12/2022)
     validateData() {
       try {
@@ -532,21 +534,22 @@ export default {
         };
         //Nếu mã nhân viên để trống
         if (!this.valueIsEmpty(this.newEmployee.EmployeeCode)) {
-          this.errors.EmployeeCode = this.errorMessage.fieldIsrequies;
+          this.errors.EmployeeCode = this.errorMessage.emptyEmployeeCode;
           this.flag = false;
         }
         //Nếu tên nhân viên để trống
         if (!this.valueIsEmpty(this.newEmployee.EmployeeName)) {
-          this.errors.EmployeeName = this.errorMessage.fieldIsrequies;
+          this.errors.EmployeeName = this.errorMessage.emptyEmployeeName;
           this.flag = false;
         }
         //Nếu thông tin phòng ban để trống
         if (!this.valueIsEmpty(this.newEmployee.DepartmentId)) {
-          this.errors.DepartmentId = this.errorMessage.fieldIsrequies;
+          this.isDepartmentError = true;
+          this.errors.DepartmentId = this.errorMessage.emptyDepartmentName;
           this.flag = false;
         }
         //Nếu email không đúng định dạng
-        if (this.newEmployee.Email) {
+        if (this.newEmployee.mail) {
           if (!this.validateEmail(this.newEmployee.Email)) {
             this.errors.Email = this.errorMessage.invalidEmail;
             this.flag = false;
@@ -573,6 +576,8 @@ export default {
           /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
         );
     },
+
+  //#endregion
     //Đóng dialog
     onCloseDialog() {
       this.isShowDialog = false;
@@ -602,7 +607,7 @@ export default {
       } catch (error) {
         console.log(error);
       }
-    },
+    }
   },
 
   created() {
@@ -614,8 +619,8 @@ export default {
           console.log(res);
           //Thực hiện gán dữ liệu
           this.newEmployee = res.data;
-          this.newEmployee.DateOfBirth = this.formatDate(res.data.DateOfBirth);
-          this.newEmployee.IdentityDate = this.formatDate(res.data.IdentityDate
+          this.newEmployee.dateOfBirth = this.formatDate(res.data.DateOfBirth);
+          this.newEmployee.identityDate = this.formatDate(res.data.IdentityDate
           );
         })
         .catch((err) => {

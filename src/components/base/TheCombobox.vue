@@ -1,5 +1,5 @@
 <template>
-  <div class="combobox">
+  <div class="combobox" :class="{ 'input-err': isError }">
     <input
       type="text"
       class="input combobox__input"
@@ -55,11 +55,11 @@
           />
         </div>
         <span>{{ item[this.propText] }}</span>
-     </a>
+      </a>
     </div>
   </div>
 </template>
-<script>
+  <script>
 /* eslint-disable */
 /**
  * Gán sự kiện nhấn click chuột ra ngoài combobox data (ẩn data list đi)
@@ -144,6 +144,14 @@ export default {
       type: Boolean,
       default: true,
     },
+    isError: {
+      type: Boolean,
+      default: false,
+    },
+    required : {
+      type: Boolean,
+      default: false,
+    }
   },
   methods: {
     /**
@@ -181,6 +189,7 @@ export default {
       this.textInput = text; // Hiển thị text lên input.
       this.indexItemSelected = index;
       this.isShowListData = false;
+      this.isError = false;
       this.$emit("getValue", value, text, item);
     },
 
@@ -276,14 +285,14 @@ export default {
       isShowListData: false, // Hiển thị list data hay không
       indexItemFocus: null, // Index của item focus hiện tại
       indexItemSelected: null, // Index của item được selected
+      isError: false,
     };
   },
 };
 </script>
-<style scoped>
+  <style scoped>
 .combobox {
   position: relative;
-  /* flex-direction: row; */
   border-radius: 4px;
   box-sizing: border-box;
 }
@@ -298,15 +307,14 @@ select {
   border-radius: 4px;
   outline: none;
   border: 1px solid #bbbbbb;
-  font-family:Notosans-Regular;
+  font-family: Notosans-Regular;
   box-sizing: border-box;
 }
 
 .combobox__input:focus,
 .combobox__input:focus ~ .combobox__button {
-  border-color: #2ca01c;
+  border-color: #35bf22;
 }
-
 .combobox__button {
   position: absolute;
   display: flex;
@@ -357,7 +365,6 @@ select {
   padding-left: 10px;
   height: 36px;
   cursor: pointer;
-  /* border: 1px solid #ccc; */
   outline: none;
 }
 
@@ -386,9 +393,12 @@ select {
 
 .combobox__item--selected {
   pointer-events: none;
-  background-color: #2ca01c;
+  background-color: #35bf22;
   color: #fff;
 }
-@import url(../../css/main.css);
 
+.input-err .combobox__input,
+.input-err .combobox__input ~ .combobox__button {
+  border-color: #e61d1d;
+}
 </style>

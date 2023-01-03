@@ -29,6 +29,7 @@
 .m-page-number {
     display: flex;
     align-items: center;
+    /* min-width: 200px; */
 }
 
 .m-prev-page {

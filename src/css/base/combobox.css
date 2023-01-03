@@ -89,8 +89,8 @@
 
 .m-combo-dropdown-panel{
     position: absolute;
-    right: 218px;
-    bottom: 71px;
+    right: 0;
+    bottom: 37px;
 }
 
 .m-dropdown-body-container {
